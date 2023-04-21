@@ -38,6 +38,7 @@ namespace FMStyles_API.Models
         public int? UpdatedBy { get; set; }
         public DateTime? DeletedAt { get; set; } = null;
         public int? DeletedBy { get; set; }
+        public bool DeleteFlag { get; set; } = false;
         public int? CategoryId { get; set; }
         public SupplierCategory SupplierCategory { get; set; }
     }

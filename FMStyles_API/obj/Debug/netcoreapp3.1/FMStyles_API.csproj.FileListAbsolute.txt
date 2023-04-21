@@ -55,3 +55,5 @@ C:\Users\DELL\Desktop\FindX Project\ASP.NET Core\FMStyles_API\FMStyles_API\bin\D
 C:\Users\DELL\Desktop\FindX Project\ASP.NET Core\FMStyles_API\FMStyles_API\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\DELL\Desktop\FindX Project\ASP.NET Core\FMStyles_API\FMStyles_API\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\DELL\Desktop\FindX Project\ASP.NET Core\FMStyles_API\FMStyles_API\obj\Debug\netcoreapp3.1\FMStyles_API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\DELL\Desktop\FindX Project\ASP.NET Core\FMStyles_API\FMStyles_API\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\DELL\Desktop\FindX Project\ASP.NET Core\FMStyles_API\FMStyles_API\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll

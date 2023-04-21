@@ -4,6 +4,7 @@ using FMStyles_API.IRepository;
 using FMStyles_API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,14 +23,30 @@ namespace FMStyles_API.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet("totalPages")]
+        [ProducesResponseType(200)]
+        public IActionResult GetTotalPages([FromQuery] FilterRequestDto filter)
+        {
+            int totalPages = _supplierRepository.GetTotalPages(filter);
+            if (totalPages == 0)
+            {
+                return BadRequest("Không có nhà cung cấp nào!");
+            }
+            return Ok(totalPages);
+        }
+
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<SupplierResponseDto>))]
-        public IActionResult GetAllSuppliers()
+        public IActionResult GetAllSuppliers([FromQuery] FilterRequestDto filter)
         {
-            var suppliers = _mapper.Map<List<SupplierResponseDto>>(_supplierRepository.GetAllSuppliers());
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            return Ok(suppliers);
+            var suppliersPagination = _mapper.Map<PaginationResponseDto>(_supplierRepository.GetAllSuppliers(filter));
+            if (suppliersPagination == null)
+            {
+                return BadRequest("Không tìm thấy kết quả");
+            }
+            return Ok(suppliersPagination);
         }
 
         [HttpPost]
@@ -47,11 +64,22 @@ namespace FMStyles_API.Controllers
                 return BadRequest(ModelState);
             }
             var supplierMap = _mapper.Map<Supplier>(supplier);
-            if(!_supplierRepository.CreateSupplier(supplierMap))
+            var supplierAdd = _supplierRepository.CreateSupplier(supplierMap);
+            if (!supplierAdd)
             {
-                return StatusCode(400, "Id danh mục nhà cung cấp không tồn tại");
+                return BadRequest(new ResponseDto() 
+                { Message = "Số điện thoại hoặc email đã tồn tại!",
+                  Code = "0"
+                });
             }
-            return Ok("Create successfully!");
+            else
+            {
+                return Ok(new ResponseDto()
+                {
+                    Message = "Tạo thành công nhà cung cấp!",
+                    Code = "1"
+                });
+            }
         }
 
         [HttpDelete("{supplierId}")]
@@ -85,10 +113,12 @@ namespace FMStyles_API.Controllers
         [HttpPut("{supplierId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public ActionResult<Supplier> UpdateSupplier(int supplierId,SupplierRequestDto supplier)
+        public ActionResult<ResponseDto> UpdateSupplier(int supplierId,SupplierRequestDto supplier)
         {
+            Console.WriteLine("test" + supplier);
             if(supplier==null)
             {
+                Console.WriteLine("null");
                 ModelState.AddModelError("", "Bạn chưa nhập thông tin nhà cung cấp");
                 return BadRequest(ModelState);
             }
@@ -96,15 +126,14 @@ namespace FMStyles_API.Controllers
             {
                 return BadRequest(ModelState);
             }
-
             var supplierMap = _mapper.Map<Supplier>(supplier);
-            if(_supplierRepository.UpdateSupplier(supplierId, supplierMap))
+            var response = _supplierRepository.UpdateSupplier(supplierId, supplierMap);
+            if(!response.isSuccess)
             {
-                return Ok("Update successfully!");
+                return BadRequest(response);
             }
-            return NotFound();
+            return Ok(response);
         }
-
 
     }
 }

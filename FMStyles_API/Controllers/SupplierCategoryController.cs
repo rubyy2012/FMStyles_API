@@ -28,7 +28,7 @@ namespace FMStyles_API.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<SupplierCategoryDto>))]
         public IActionResult GetListSupplierCategories()
         {
-            var listSupplierCategories = _mapper.Map<List<SupplierCategoryDto>> (_supplierCategory.GetListSupplierCategories()).ToList();
+            var listSupplierCategories = _mapper.Map<IEnumerable<SupplierCategoryDto>> (_supplierCategory.GetListSupplierCategories()).ToList();
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             return Ok(listSupplierCategories);

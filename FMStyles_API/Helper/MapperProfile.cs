@@ -9,6 +9,7 @@ namespace FMStyles_API.Helper
         public MapperProfile()
         {
             CreateMap<Supplier, SupplierRequestDto>().ReverseMap();
+            CreateMap<PaginationResponseDto, SupplierRequestDto>().ReverseMap();
             CreateMap<Supplier, SupplierResponseDto>().ReverseMap();
             CreateMap<SupplierCategory, SupplierCategoryDto>().ReverseMap();
         }

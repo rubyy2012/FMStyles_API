@@ -18,7 +18,9 @@ namespace FMStyles_API.DataConfig
                 {
                     entity.HasOne(s => s.SupplierCategory).WithMany(s => s.Suppliers)
                     .HasForeignKey(s => s.CategoryId).OnDelete(DeleteBehavior.Restrict);
+        
                 });
+
 
             modelBuilder.Entity<SupplierCategory>(entity =>
             {
